@@ -42,6 +42,7 @@ tap.test('vtween_loop',t=>{
         }
     });
     vt.tick(500);
+    vt.tick(1500);
     vt.tick(2000);
 
     console.log(ent.lvec3);

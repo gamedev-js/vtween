@@ -15,15 +15,15 @@ tap.test('vtween_direction',t=>{
     
     let vec2_a,vec3_a;
     vec2_a=vec2.create();
-    vec2.set(vec2_a,1,1);
+    vec2.set(vec2_a,0,0);
     
     
     vec3_a=vec3.create();
-    vec3.set(vec3_a,1,1,1);
+    vec3.set(vec3_a,0,0,0);
     
 
     let ent_prop={
-        lfloat: 1,
+        lfloat: 0,
         lvec2: vec2_a,
         lvec3: vec3_a
     }
@@ -34,16 +34,18 @@ tap.test('vtween_direction',t=>{
     
     let vt=new vtween({targets :ent,
         anim:{
-            lfloat:0,
-            lvec3:[0,0,0],
+            lvec3:[1,1,1]
         },
         properties:{
-            direction:false,
+            loop: true,
         }
     });
-    vt.lastTime=500;
+    vt.direction='alternate';
     
     vt.tick(100);
+    vt.tick(1200);
+    vt.tick(1400);
+
     console.log(ent.lvec3);
     t.end();
     

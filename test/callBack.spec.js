@@ -1,5 +1,5 @@
 const tap =require('./tap');
-const {vtween}=require('../dist/vtween');
+const {Easing,vtween}=require('../dist/vtween');
 const vmath = require('vmath');
 const {vec2,vec3}=vmath;
 
@@ -11,7 +11,7 @@ class entity{
     }
 }
 
-tap.test('vtween_loop',t=>{
+tap.test('vtween_base',t=>{
     
     let vec2_a,vec3_a;
     vec2_a=vec2.create();
@@ -21,15 +21,28 @@ tap.test('vtween_loop',t=>{
     vec3_a=vec3.create();
     vec3.set(vec3_a,1,1,1);
     
-
     let ent_prop={
         lfloat: 1,
         lvec2: vec2_a,
         lvec3: vec3_a
     }
     
-
     ent=new entity(ent_prop);
+
+    let beginFun=function(){
+        console.log('begine callback!');
+    }
+    let endFun=function(){
+        console.log('end callback!');
+    }
+    let runFun=function(){
+        console.log('run callback!');
+    }
+    let updataFun=function(){
+        console.log('updata callback!');
+    }
+    
+
     console.log(ent.lvec3);
     
     let vt=new vtween({targets :ent,
@@ -38,13 +51,16 @@ tap.test('vtween_loop',t=>{
             lvec3:[0,0,0],
         },
         properties:{
-            loop:true,
-            direction:false,
         }
     });
-    vt.lastTime=500;
-    vt.tick(900);
+    vt.onStart=beginFun;
+    vt.onEnd=endFun;
+    vt.onRun=runFun;
+    vt.onUpdate=updataFun;
 
+    vt.tick(500);
+    vt.tick(1500);
+    
     console.log(ent.lvec3);
     t.end();
     
