@@ -1,2 +1,1 @@
-export default {
-};
+export {  Easing,vtween }from './lib/vtween';
