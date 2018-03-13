@@ -12,15 +12,11 @@ class entity {
 }
 
 tap.test('vtween_loop', t => {
-
   let vec2_a, vec3_a;
   vec2_a = vec2.create();
   vec2.set(vec2_a, 1, 1);
-
-
   vec3_a = vec3.create();
   vec3.set(vec3_a, 1, 1, 1);
-
 
   let ent_prop = {
     lfloat: 1,
@@ -28,11 +24,11 @@ tap.test('vtween_loop', t => {
     lvec3: vec3_a
   }
 
+  const ent = new entity(ent_prop);
 
-  ent = new entity(ent_prop);
   console.log(ent.lvec3);
 
-  let vt = new vtween({
+  const vt = new vtween({
     targets: ent,
     anim: {
       lfloat: 0,
@@ -40,13 +36,13 @@ tap.test('vtween_loop', t => {
     },
     properties: {
       loop: true,
-    }
+    },
   });
   vt.tick(500);
   vt.tick(1500);
   vt.tick(2000);
 
   console.log(ent.lvec3);
-  t.end();
 
+  t.end();
 })

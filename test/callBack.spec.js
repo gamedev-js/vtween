@@ -12,22 +12,19 @@ class entity {
 }
 
 tap.test('vtween_base', t => {
-
   let vec2_a, vec3_a;
   vec2_a = vec2.create();
   vec2.set(vec2_a, 1, 1);
-
-
   vec3_a = vec3.create();
   vec3.set(vec3_a, 1, 1, 1);
 
-  let ent_prop = {
+  const ent_prop = {
     lfloat: 1,
     lvec2: vec2_a,
     lvec3: vec3_a
   }
 
-  ent = new entity(ent_prop);
+  const ent = new entity(ent_prop);
 
   let beginFun = function () {
     console.log('begine callback!');
@@ -42,25 +39,23 @@ tap.test('vtween_base', t => {
     console.log('updata callback!');
   }
 
-
   console.log(ent.lvec3);
-  let vt = new vtween({
+
+  const vt = new vtween({
     targets: ent,
     anim: {
       lfloat: 0,
       lvec3: [0, 0, 0],
     },
-    properties: {
-    }
   });
   vt.onStart = beginFun;
   vt.onEnd = endFun;
   vt.onRun = runFun;
   vt.onUpdate = updataFun;
-
   vt.tick(500);
   vt.tick(1500);
 
   console.log(ent.lvec3);
+  
   t.end();
 })

@@ -1,4 +1,3 @@
-
 const tap = require('./tap');
 const { vtween } = require('../dist/vtween');
 const vmath = require('vmath');
@@ -14,31 +13,26 @@ class entity {
 }
 
 tap.test('vtween_base', t => {
-
   let vec2_a, vec3_a, quat_a;
   vec2_a = vec2.create();
   vec2.set(vec2_a, 0, 0);
-
-
   vec3_a = vec3.create();
   vec3.set(vec3_a, 0, 0, 0);
-
   quat_a = quat.create();
   quat.set(quat_a, 0, 0, 0, 0);
 
-
-  let ent_prop = {
+  const ent_prop = {
     lfloat: 1,
     lvec2: vec2_a,
     lvec3: vec3_a,
     lquat: quat_a
   }
 
+  const ent = new entity(ent_prop);
 
-  ent = new entity(ent_prop);
   console.log(ent);
 
-  let vt = new vtween({
+  const vt = new vtween({
     targets: ent,
     anim: {
       lfloat: 1,
@@ -50,8 +44,7 @@ tap.test('vtween_base', t => {
   vt.tick(500);
   vt.tick(1000);
 
-
   console.log(ent);
+  
   t.end();
-
 })
