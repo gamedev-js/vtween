@@ -1,1 +1,1 @@
-export { easing, vtweenEngine, vtween } from './lib/vtween';
+export {vtweenEngine, vtween } from './lib/vtween';
