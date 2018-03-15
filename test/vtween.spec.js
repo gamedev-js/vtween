@@ -1,5 +1,5 @@
 const tap = require('./tap');
-const { easing, vtween, vtweenEngine } = require('../dist/vtween');
+const { easing, vtweenEngine } = require('../dist/vtween');
 const vmath = require('vmath');
 const { vec2, vec3, quat } = vmath;
 
@@ -31,7 +31,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -70,7 +70,7 @@ tap.test('vtween', t => {
 
     let ent1 = new entity(entProp);
     let ent2 = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: [ent1, ent2],
       properties: {
         lvec2: [1, 1],
@@ -108,7 +108,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -144,7 +144,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -180,7 +180,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -220,7 +220,7 @@ tap.test('vtween', t => {
       lquat: quatA
     }
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -259,7 +259,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtween({
+    let vtween1 = vtweenEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -279,6 +279,57 @@ tap.test('vtween', t => {
     vtweenEngine.tick(1000);
     vtweenEngine.tick(1200);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
+
+    t.end();
+  });
+
+  t.test('vtween CallBack', t => {
+    let vec2A, vec3A, quatA;
+    vec2A = vec2.create();
+    vec2.set(vec2A, 0, 0);
+    vec3A = vec3.create();
+    vec3.set(vec3A, 0, 0, 0);
+    quatA = quat.create();
+    quat.set(quatA, 0, 0, 0, 0);
+
+    let funA=function(){
+      console.log('begin');
+    }
+    let funB=function(){
+      console.log('complete');
+    }
+    let funC=function(){
+      console.log('run');
+    }
+    let funD=function(){
+      console.log('update');
+    }
+
+    const entProp = {
+      lfloat: 1,
+      lvec2: vec2A,
+      lvec3: vec3A,
+      lquat: quatA
+    }
+
+    let ent = new entity(entProp);
+    let vtween1 = vtweenEngine.create({
+      targets: ent,
+      properties: {
+        lvec2: [1, 1],
+        lvec3: [1, 1, 1],
+      },
+      options: {
+      }
+    });
+
+    vtween1.onStart=funA;
+    vtween1.onEnd=funB;
+    vtween1.onRun=funC;
+    vtween1.onUpdate=funD;
+
+    vtweenEngine.tick(500);
+    vtweenEngine.tick(1500);
 
     t.end();
   });
