@@ -1,5 +1,5 @@
 const tap = require('./tap');
-const { easing, vtweenEngine } = require('../dist/vtween');
+const { vtweenEngine } = require('../dist/vtween');
 const vmath = require('vmath');
 const { vec2, vec3, quat } = vmath;
 
@@ -12,8 +12,10 @@ class entity {
   }
 }
 
-tap.test('vtween', t => {
+var vEngine = new vtweenEngine();
 
+tap.test('vtween', t => {
+  console.log(vtweenEngine.create);
   t.test('vtween Play', t => {
     let vec2A, vec3A, quatA;
     vec2A = vec2.create();
@@ -31,7 +33,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -42,11 +44,11 @@ tap.test('vtween', t => {
       }
     });
     vtween1.play();
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
 
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0.5, 0.5, 0.5]);
 
     t.end();
@@ -70,7 +72,7 @@ tap.test('vtween', t => {
 
     let ent1 = new entity(entProp);
     let ent2 = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: [ent1, ent2],
       properties: {
         lvec2: [1, 1],
@@ -80,11 +82,11 @@ tap.test('vtween', t => {
       }
     });
 
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent1.lvec3, [0.3, 0.3, 0.3]);
     t.equal_v3(ent2.lvec3, [0.3, 0.3, 0.3]);
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent1.lvec3, [0.5, 0.5, 0.5]);
     t.equal_v3(ent2.lvec3, [0.5, 0.5, 0.5]);
 
@@ -108,7 +110,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -118,10 +120,10 @@ tap.test('vtween', t => {
       }
     });
     vtween1.pause();
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0, 0, 0]);
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0, 0, 0]);
 
     t.end();
@@ -144,7 +146,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -154,10 +156,10 @@ tap.test('vtween', t => {
       }
     });
     vtween1.pause();
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0, 0, 0]);
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0, 0, 0]);
 
     t.end();
@@ -180,7 +182,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -190,15 +192,15 @@ tap.test('vtween', t => {
       }
     });
 
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
     vtween1.pause();
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
     vtween1.play();
-    vtweenEngine.tick(1000);
-    vtweenEngine.tick(1200);
+    vEngine.tick(1000);
+    vEngine.tick(1200);
     t.equal_v3(ent.lvec3, [0.5, 0.5, 0.5]);
 
     t.end();
@@ -220,7 +222,7 @@ tap.test('vtween', t => {
       lquat: quatA
     }
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -231,12 +233,12 @@ tap.test('vtween', t => {
       }
     });
     vtween1.play();
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
     vtween1.restart();
-    vtweenEngine.tick(800);
-    vtweenEngine.tick(1000);
+    vEngine.tick(800);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0.2, 0.2, 0.2]);
 
     t.end();
@@ -259,7 +261,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -270,14 +272,14 @@ tap.test('vtween', t => {
       }
     });
     vtween1.play();
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(800);
+    vEngine.tick(500);
+    vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
-    vtweenEngine.tick(1000);
+    vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0.5, 0.5, 0.5]);
     vtween1.reverse();
-    vtweenEngine.tick(1000);
-    vtweenEngine.tick(1200);
+    vEngine.tick(1000);
+    vEngine.tick(1200);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
 
     t.end();
@@ -292,16 +294,16 @@ tap.test('vtween', t => {
     quatA = quat.create();
     quat.set(quatA, 0, 0, 0, 0);
 
-    let funA=function(){
+    let funA = function () {
       console.log('begin');
     }
-    let funB=function(){
+    let funB = function () {
       console.log('complete');
     }
-    let funC=function(){
+    let funC = function () {
       console.log('run');
     }
-    let funD=function(){
+    let funD = function () {
       console.log('update');
     }
 
@@ -313,7 +315,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vtweenEngine.create({
+    let vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
@@ -323,13 +325,13 @@ tap.test('vtween', t => {
       }
     });
 
-    vtween1.onStart=funA;
-    vtween1.onEnd=funB;
-    vtween1.onRun=funC;
-    vtween1.onUpdate=funD;
+    vtween1.onStart = funA;
+    vtween1.onEnd = funB;
+    vtween1.onRun = funC;
+    vtween1.onUpdate = funD;
 
-    vtweenEngine.tick(500);
-    vtweenEngine.tick(1500);
+    vEngine.tick(500);
+    vEngine.tick(1500);
 
     t.end();
   });
