@@ -15,7 +15,6 @@ class entity {
 var vEngine = new vtweenEngine();
 
 tap.test('vtween', t => {
-  console.log(vtweenEngine.create);
   t.test('vtween Play', t => {
     let vec2A, vec3A, quatA;
     vec2A = vec2.create();
