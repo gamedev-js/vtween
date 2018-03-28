@@ -15,6 +15,7 @@ class entity {
 var vEngine = new vtweenEngine();
 
 tap.test('vtween', t => {
+
   t.test('vtween Play', t => {
     let vec2A, vec3A, quatA;
     vec2A = vec2.create();
@@ -42,14 +43,13 @@ tap.test('vtween', t => {
         autoplay: false,
       }
     });
+
     vtween1.play();
     vEngine.tick(500);
     vEngine.tick(800);
-
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
-    vEngine.tick(1000);
-    t.equal_v3(ent.lvec3, [0.5, 0.5, 0.5]);
-
+    vEngine.tick(2000);
+    
     t.end();
   });
 
@@ -68,9 +68,9 @@ tap.test('vtween', t => {
       lvec3: vec3A,
       lquat: quatA
     }
-
     let ent1 = new entity(entProp);
     let ent2 = new entity(entProp);
+
     let vtween1 = vEngine.create({
       targets: [ent1, ent2],
       properties: {
@@ -78,6 +78,7 @@ tap.test('vtween', t => {
         lvec3: [1, 1, 1],
       },
       options: {
+        autoplay: true,
       }
     });
 
@@ -118,43 +119,9 @@ tap.test('vtween', t => {
       options: {
       }
     });
+
     vtween1.pause();
-    vEngine.tick(500);
-    vEngine.tick(800);
-    t.equal_v3(ent.lvec3, [0, 0, 0]);
-    vEngine.tick(1000);
-    t.equal_v3(ent.lvec3, [0, 0, 0]);
 
-    t.end();
-  });
-
-  t.test('vtween Pause', t => {
-    let vec2A, vec3A, quatA;
-    vec2A = vec2.create();
-    vec2.set(vec2A, 0, 0);
-    vec3A = vec3.create();
-    vec3.set(vec3A, 0, 0, 0);
-    quatA = quat.create();
-    quat.set(quatA, 0, 0, 0, 0);
-
-    const entProp = {
-      lfloat: 1,
-      lvec2: vec2A,
-      lvec3: vec3A,
-      lquat: quatA
-    }
-
-    let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-      }
-    });
-    vtween1.pause();
     vEngine.tick(500);
     vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0, 0, 0]);
@@ -181,13 +148,15 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
+
+    const vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
         lvec3: [1, 1, 1],
       },
       options: {
+        autoplay: true,
       }
     });
 
@@ -197,6 +166,8 @@ tap.test('vtween', t => {
     vtween1.pause();
     vEngine.tick(1000);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
+    vtween1.play();
+    vtween1.pause();
     vtween1.play();
     vEngine.tick(1000);
     vEngine.tick(1200);
@@ -221,17 +192,18 @@ tap.test('vtween', t => {
       lquat: quatA
     }
     let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
+
+    const vtween1 = vEngine.create({
       targets: ent,
       properties: {
         lvec2: [1, 1],
         lvec3: [1, 1, 1],
       },
       options: {
-        autoplay: false,
+        autoplay: true,
       }
     });
-    vtween1.play();
+    
     vEngine.tick(500);
     vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
@@ -314,6 +286,7 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
+    console.log(vEngine.activeTasks._count);
     let vtween1 = vEngine.create({
       targets: ent,
       properties: {
@@ -321,9 +294,10 @@ tap.test('vtween', t => {
         lvec3: [1, 1, 1],
       },
       options: {
+        autoplay: true,
       }
     });
-
+    console.log(vEngine.activeTasks._count);
     vtween1.onStart = funA;
     vtween1.onEnd = funB;
     vtween1.onRun = funC;
