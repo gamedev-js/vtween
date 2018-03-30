@@ -39,7 +39,8 @@
     "rollup-plugin-buble": "^0.18.0",
     "uglify-js": "^3.3.7",
     "tap": "^10.3.0",
-    "vmath": "^1.4.5"
+    "vmath": "^1.4.5",
+    "memop": "^1.6.0"
   },
   "files": [
     "dist",
