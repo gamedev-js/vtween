@@ -1,2 +1,2 @@
-export { vtweenEngine } from './lib/vtween';
+export { default as VTween } from './lib/core';
 export { easing } from './lib/easing';

@@ -1,5 +1,5 @@
 const tap = require('./tap');
-const { vtweenEngine } = require('../dist/vtween');
+const { VTween } = require('../dist/vtween');
 const vmath = require('vmath');
 const { vec2, vec3, quat } = vmath;
 
@@ -12,7 +12,7 @@ class entity {
   }
 }
 
-var vEngine = new vtweenEngine();
+var vEngine = new VTween();
 
 tap.test('vtween', t => {
 
@@ -33,23 +33,18 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3', duration: 2000 }
+    }, {
         autoplay: false,
-      }
-    });
+      });
 
     vtween1.play();
     vEngine.tick(500);
     vEngine.tick(800);
-    t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
+    t.equal_v3(ent.lvec3, [0.15, 0.15, 0.15]);
     vEngine.tick(2000);
-    
+
     t.end();
   });
 
@@ -71,24 +66,15 @@ tap.test('vtween', t => {
     let ent1 = new entity(entProp);
     let ent2 = new entity(entProp);
 
-    let vtween1 = vEngine.create({
-      targets: [ent1, ent2],
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-        autoplay: true,
-      }
-    });
+    let vtween1 = vEngine.newTask([ent1, ent2], {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+      });
 
     vEngine.tick(500);
     vEngine.tick(800);
     t.equal_v3(ent1.lvec3, [0.3, 0.3, 0.3]);
     t.equal_v3(ent2.lvec3, [0.3, 0.3, 0.3]);
-    vEngine.tick(1000);
-    t.equal_v3(ent1.lvec3, [0.5, 0.5, 0.5]);
-    t.equal_v3(ent2.lvec3, [0.5, 0.5, 0.5]);
 
     t.end();
   });
@@ -110,15 +96,11 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-      }
-    });
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+        duration: 1000
+      });
 
     vtween1.pause();
 
@@ -149,16 +131,11 @@ tap.test('vtween', t => {
 
     let ent = new entity(entProp);
 
-    const vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-        autoplay: true,
-      }
-    });
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+        duration: 1000
+      });
 
     vEngine.tick(500);
     vEngine.tick(800);
@@ -193,17 +170,12 @@ tap.test('vtween', t => {
     }
     let ent = new entity(entProp);
 
-    const vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-        autoplay: true,
-      }
-    });
-    
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+        duration: 1000
+      });
+
     vEngine.tick(500);
     vEngine.tick(800);
     t.equal_v3(ent.lvec3, [0.3, 0.3, 0.3]);
@@ -232,16 +204,11 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    let vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-        autoplay: false,
-      }
-    });
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+        duration: 1000
+      });
     vtween1.play();
     vEngine.tick(500);
     vEngine.tick(800);
@@ -286,22 +253,17 @@ tap.test('vtween', t => {
     }
 
     let ent = new entity(entProp);
-    console.log(vEngine.activeTasks._count);
-    let vtween1 = vEngine.create({
-      targets: ent,
-      properties: {
-        lvec2: [1, 1],
-        lvec3: [1, 1, 1],
-      },
-      options: {
-        autoplay: true,
-      }
-    });
-    console.log(vEngine.activeTasks._count);
-    vtween1.onStart = funA;
-    vtween1.onEnd = funB;
-    vtween1.onRun = funC;
-    vtween1.onUpdate = funD;
+
+    let vtween1 = vEngine.newTask(ent, {
+      lvec3: { value: [1, 1, 1], type: 'vec3' }
+    }, {
+        duration: 1000
+      });
+
+    vtween1.start = funA;
+    vtween1.end = funB;
+    vtween1.run = funC;
+    vtween1.update = funD;
 
     vEngine.tick(500);
     vEngine.tick(1500);
